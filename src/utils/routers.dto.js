@@ -1,3 +1,6 @@
 export const RouterDTO = Object.freeze({
-    home: "/",
+    home: '/*',
+    auth: {
+        login: '/auth/login',
+    },
 });
