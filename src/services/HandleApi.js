@@ -10,8 +10,8 @@ export async function HandleApi(api, data = null) {
                 await refreshToken();
                 api();
             } catch (error) {
-                window.location.href = '/auth/login';
                 await logoutService();
+                window.location.href = '/auth/login';
                 localStorage.clear();
             }
         } else {
