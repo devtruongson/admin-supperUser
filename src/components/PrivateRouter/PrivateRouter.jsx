@@ -19,13 +19,16 @@ export default function PrivateRouter({ children }) {
 
     useEffect(() => {
         const _fetch = async () => {
-            const Res = await HandleApi(checkSuperUser);
-
-            if (Res.data.isSuperAdmin) {
-                setUser(true);
-            } else {
-                await handlleDispatLogoutAndCallAPI();
-                navigate('/auth/login');
+            try {
+                const Res = await HandleApi(checkSuperUser);
+                if (Res?.data?.isSuperAdmin) {
+                    setUser(true);
+                } else {
+                    await handlleDispatLogoutAndCallAPI();
+                    navigate('/auth/login');
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
 
@@ -33,7 +36,7 @@ export default function PrivateRouter({ children }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 
-    return <div>{user ? children : ''}</div>;
+    return <div>{user ? children : 'asd'}</div>;
 }
 
 PrivateRouter.propTypes = {

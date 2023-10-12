@@ -91,3 +91,8 @@ body {
     --brand-primary-color          : #ee4d2d;
     --brand-primary-light-color    : rgba(255, 87, 34, 0.1);
 }
+
+.w-33-custom {
+    width: calc(100% / 3);
+    flex : calc(100% /3);
+}

@@ -24,7 +24,7 @@ export default function CheckDeviceSingle({ children }) {
         if (_token_device && isLogin) {
             const _fetch = async () => {
                 try {
-                    const Res = await HandleApi(checkDeviceService, _token_device);
+                    const Res = await checkDeviceService(_token_device);
                     if (!Res?.data?.successful) {
                         await handlleDispatLogoutAndCallAPI();
                         swalert
@@ -42,7 +42,7 @@ export default function CheckDeviceSingle({ children }) {
                             });
                     }
                 } catch (error) {
-                    if (error?.response?.data?.message) {
+                    if (error?.response?.data?.message && error.response.status !== 401) {
                         swalert
                             .fire({
                                 title: 'Có lỗi xảy ra',

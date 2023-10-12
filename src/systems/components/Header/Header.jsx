@@ -1,9 +1,11 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import { Tooltip } from 'antd';
+import { Button, Popover } from 'antd';
 
 import styles from './header.module.scss';
 import { BASE_URL } from '../../../utils/constant';
+import { FeatureHeader, PopperMenu } from './components/Child';
+import NotifyHeader from './components/Notify';
 
 const cx = classNames.bind(styles);
 
@@ -14,12 +16,29 @@ export default function Header() {
                 <img className={cx('logo-web')} src={BASE_URL + '/upload/folder/Shopee.svg.png'} alt="Logo website" />
             </div>
             <div className={cx('right')}>
-                <Tooltip title="Render Menu Tại Đây">
+                <Popover content={<PopperMenu cx={cx} />}>
                     <div className={cx('account')}>
                         <img className={cx('avatar')} src={BASE_URL + '/upload/folder/not-avata.png'} alt="Avatar" />
                         <span>Shop Truong Son</span>
                     </div>
-                </Tooltip>
+                </Popover>
+                <div className={cx('feature')}>
+                    <Popover content={<FeatureHeader cx={cx} />}>
+                        <i className="bi bi-grid-3x3-gap"></i>
+                    </Popover>
+                </div>
+                <div className={cx('notify')}>
+                    <Popover visible content={<NotifyHeader cx={cx} />}>
+                        <i className="bi bi-bell"></i>
+                    </Popover>
+                </div>
+                <div
+                    style={{
+                        marginLeft: 30,
+                    }}
+                >
+                    <Button type="primary">Trang Chủ Shoppe</Button>
+                </div>
             </div>
         </div>
     );
