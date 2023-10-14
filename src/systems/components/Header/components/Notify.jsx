@@ -1,44 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func, string } from 'prop-types';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+
 import { HandleApi } from '../../../../services/HandleApi';
-import { getNotifyService } from '../../../../services/notifyService';
+import { getNotifyService, updateViewNotifications } from '../../../../services/notifyService';
+import { BASE_URL } from '../../../../utils/constant';
 
-export default function NotifyHeader({ cx }) {
-    const [notifys, setNotifys] = useState([]);
+import styles from './Notify.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { viewNotifiAction } from '../../../../features/app/appSlice';
+const cx = classNames.bind(styles);
 
-    useEffect(() => {
-        const _fetch = async () => {
-            try {
-                const Res = await HandleApi(getNotifyService, {
-                    page: 1,
-                    pageSize: 10,
-                });
+export default function NotifyHeader({ className = '', children }) {
+    const notification = useSelector((state) => state.appSlice.notifications);
 
-                setNotifys(Res.items);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+    const dispatch = useDispatch();
 
-        _fetch();
-    }, []);
-
-    console.log(notifys);
+    async function handleClickViewNotification(item) {
+        dispatch(viewNotifiAction(item));
+        // call  API
+        await HandleApi(updateViewNotifications, {
+            'id[]': item.id,
+        });
+    }
 
     return (
-        <div className={cx('notify-wp')}>
+        <div className={cx('notify-wp', `${className}`)}>
             <div className={cx('notify-header')}>
                 <span>Thông Báo Gần Đây</span>
                 <button>Đánh dấu đã đọc tất cả</button>
             </div>
             <div className={cx('notify-body')}>
-                {notifys &&
-                    notifys.length > 0 &&
-                    notifys.map((item) => (
-                        <div key={item.slug} className={cx('item')}>
+                {notification &&
+                    notification.length > 0 &&
+                    notification.map((item) => (
+                        <div key={item.slug} className={cx('item')} onClick={() => handleClickViewNotification(item)}>
+                            {!item.is_view ? <span>Chua Xem</span> : <span>Da Xem</span>}
                             <img
-                                src="https://cf.shopee.vn/file/07b48cd255a12f6d06e80bf0fefba28c"
+                                src={`${BASE_URL}/${
+                                    item.thumbnail_url ? item.thumbnail_url : 'upload/folder/thongbao.png'
+                                }`}
                                 alt="Hình ảnh thông báo"
                             />
                             <div>
@@ -50,12 +52,13 @@ export default function NotifyHeader({ cx }) {
                     ))}
             </div>
             <div className={cx('notify-footer')}>
-                <Link to="/">Xem tất cả thông báo</Link>
+                {children ? children : <Link to="/notifications">Xem tất cả thông báo</Link>}
             </div>
         </div>
     );
 }
 
 NotifyHeader.propTypes = {
-    cx: PropTypes.func,
+    className: PropTypes.string,
+    children: PropTypes.node,
 };

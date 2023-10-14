@@ -67,7 +67,7 @@ export default function CheckDeviceSingle({ children }) {
             navigate('/auth/login');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [navigate]);
+    }, []);
 
     return <>{children}</>;
 }

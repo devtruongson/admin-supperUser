@@ -14,8 +14,6 @@ export const authSlice = createSlice({
             const stateClone = {
                 ...state,
             };
-            console.log(action);
-
             stateClone.user = action.payload.user;
             stateClone._token_device = action.payload._token_device;
             stateClone.isLoginIn = true;

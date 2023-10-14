@@ -5,3 +5,9 @@ export const getNotifyService = ({ page = 1, pageSize = 5 }) => {
         withCredentials: true,
     });
 };
+
+export const updateViewNotifications = (data) => {
+    return axios.put('/notify/view-trues', data, {
+        withCredentials: true,
+    });
+};

@@ -28,7 +28,7 @@ export default function Header() {
                     </Popover>
                 </div>
                 <div className={cx('notify')}>
-                    <Popover visible content={<NotifyHeader cx={cx} />}>
+                    <Popover content={<NotifyHeader />}>
                         <i className="bi bi-bell"></i>
                     </Popover>
                 </div>

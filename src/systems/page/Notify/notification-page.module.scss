@@ -1,0 +1,7 @@
+.notify-page {
+    background-color: #fff;
+
+    &>div:nth-child(2) {
+        max-width: fit-content;
+    }
+}
